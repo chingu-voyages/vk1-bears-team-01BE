@@ -1,0 +1,60 @@
+http://localhost:5000/api/auth
+
+###
+
+# REGISTER
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "firstName": "Christian",
+    "lastName": "Lacaste",
+    "email": "lacastetuts1@gmail.com",
+    "gender": "",
+    "country": "",
+    "region": "",
+    "password": "password28"
+}
+
+###
+
+# ACTIVATION
+POST http://localhost:5000/api/auth/activation
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJDaHJpc3RpYW4iLCJsYXN0TmFtZSI6IkxhY2FzdGUiLCJlbWFpbCI6ImxhY2FzdGV0dXRzMUBnbWFpbC5jb20iLCJwYXNzd29yZCI6InBhc3N3b3JkMjgiLCJnZW5kZXIiOiIiLCJjb3VudHJ5IjoiIiwicmVnaW9uIjoiIiwiaWF0IjoxNjA2OTk1NTE4LCJleHAiOjE2MDc2MDAzMTh9.OhgHOvB7LoITt9L_8w76a9DoAe9huYZxrS_4g2csg8A"
+}
+
+###
+
+# LOGIN
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "lacastetuts1@gmail.com",
+    "password": "password28"
+}
+
+###
+
+# FORGOT
+PUT http://localhost:5000/api/auth/forgotpassword
+Content-Type: application/json
+
+{
+    "email": "christianlacaste28@gmail.com"
+}
+
+###
+
+# RESET
+PUT http://localhost:5000/api/auth/resetpassword
+Content-Type: application/json
+
+{
+    "resetPasswordLink": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmM3ZGYzMGUxOWQ5MzE2YjA3YmQ2ZjkiLCJpYXQiOjE2MDY5NDE2OTcsImV4cCI6MTYwNzU0NjQ5N30.FZvFBZGxOjEuqkrysDL9NTb5XyQoPk1s9HCOB62dXKc",
+    "newPassword": "321321"
+}
+

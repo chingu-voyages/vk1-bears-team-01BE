@@ -7,8 +7,10 @@ const connectDB = () => {
         //the following lines is for DeprecationWarning
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
     }).then(() => {
-        console.log("Database connected sucessfully !");
+        console.log("Database connected sucessfully!");
     },
         error => {
             console.log('Database could not be connected, ' + error)

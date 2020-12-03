@@ -2,8 +2,9 @@ import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
-import connectDB from './app/config/db.connect'
+import connectDB from './app/config/db.connect';
 import apiRoutes from './app/routes/';
+
 
 const app = express();
 
@@ -26,4 +27,5 @@ app.listen(PORT, () =>
 
 //import routes
 app.use('/', apiRoutes)
+
 
