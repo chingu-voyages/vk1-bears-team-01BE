@@ -1,25 +1,25 @@
 import 'dotenv/config';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import { validationResult } from 'express-validator';
 import _ from 'lodash';
-import randomstring from 'randomstring';
 import httpStatus from "../utils/httpStatus";
 import userModel from "../models/user.model";
-import { transformAuthInfo } from 'passport';
 
-import sgMail from '@sendgrid/mail';
 
-//Sendgrid API KEY Setup
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-//google client id to OAuth2Client
+// Mail google OAuth2
+const oAuth2Client = new google.auth.OAuth2(process.env.MAIL_CLIENT_ID, process.env.MAIL_CLIENT_SECRET, process.env.MAIL_REDIRECT_URI);
+oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN })
+
+// Google client id to OAuth2Client
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT);
 const authController = {};
 
 // REGISTER EMAIL
-authController.register = (req, res) => {
+authController.register = async (req, res) => {
     const { firstName, lastName, email, password, gender, country, region } = req.body;
     const errors = validationResult(req);
 
@@ -33,7 +33,7 @@ authController.register = (req, res) => {
         });
     } else {
         // Checks if email exist
-        userModel.findOne({ email }).exec((err, user) => {
+        await userModel.findOne({ email }).exec((err, user) => {
             if (user) {
                 return res.status(httpStatus.BAD_REQUEST).json({
                     error: true,
@@ -54,40 +54,48 @@ authController.register = (req, res) => {
             }
         );
 
-        //EMAIL CONTENT DETAILS
-        const emailData = {
-            from: process.env.EMAIL_FROM,
-            to: email,
-            subject: 'Account activation link',
-            html: `
-                <h1>Please use the following to activate your account</h1>
-                <p>${process.env.CLIENT_URL}/users/activate/${token}</p>
-                <hr />
-                <p>This email may containe sensetive information</p>
-                <p>${process.env.CLIENT_URL}</p>
-            `
-        };
+        // EMAIL FUNCTION
+        const sendMail = async () => {
+            try {
+                const accessToken = await oAuth2Client.getAccessToken();
 
-        //SENDING EMAIL
-        sgMail
-            .send(emailData)
-            .then(sent => {
-                return res.json({
-                    success: true,
-                    type: "success",
-                    message: `Email has been sent to ${email}. Please activate your account.`
-                });
-            })
-            .catch(err => {
-                //RETURN ERROR IF EMAIL FAILED
-                return res.status(httpStatus.BAD_REQUEST).json({
-                    success: false,
-                    type: "danger",
-                    message: err
-                });
-            });
+                // Nodemailer Setup
+                const transport = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        type: 'OAuth2',
+                        user: process.env.EMAIL_FROM,
+                        clientId: process.env.MAIL_CLIENT_ID,
+                        clientSecret: process.env.MAIL_CLIENT_SECRET,
+                        refreshToken: process.env.MAIL_REFRESH_TOKEN,
+                        accessToken: accessToken
+                    }
+                })
+                // EMAIL CONTENT DETAILS
+                const mailOptions = {
+                    from: `LEXSELL <${process.env.EMAIL_FROM}>`,
+                    to: email,
+                    subject: 'Account Activation Link',
+                    text: 'Please use the following to activate your account',
+                    html: `<h1>Please use the following to activate your account</h1>
+                            <p>${process.env.CLIENT_URL}/users/activate/${token}</p>
+                            <hr />
+                            <p>This email may containe sensetive information</p>
+                            <p>${process.env.CLIENT_URL}</p>`
+                }
+                // Sends the email
+                const result = await transport.sendMail(mailOptions);
+                return result;
+            } catch (error) {
+                return error;
+            }
+        }
+        // Prompt for email success or failed.
+        sendMail().then(result => console.log('Email sent...', result))
+            .catch(error => console.log(error.message))
+
     }
-};
+}
 
 // ACTIVATION
 authController.activation = (req, res) => {
