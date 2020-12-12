@@ -1,5 +1,6 @@
 import express from "express";
 import authRoutes from "./auth.routes";
+import productRoutes from "./product.routes"
 
 const apiRoutes = express.Router();
 
@@ -11,6 +12,8 @@ apiRoutes.get("/api", function (req, res, next) {
 //Use Routes
 apiRoutes.use("/api/auth", authRoutes);
 
-
+//product routes
+apiRoutes.use("/api/product", productRoutes)
 
 export default apiRoutes;
+

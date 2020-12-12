@@ -1,0 +1,27 @@
+http://localhost:5000/api/product/
+
+###
+http://localhost:5000/api/product/5fc8fe274b1a59154c4f62cc
+
+###
+POST http://localhost:5000/api/product/
+Content-Type: application/json
+
+{
+    "title":"piatos",
+    "description":"potato chips",
+    "category":["food","snack"],
+    "images":["sample","sample2"],
+    "price":30.00,
+    "meetingPlace":"Quezon",
+    "condition":"brand new"
+}
+
+#get product by category
+###
+http://localhost:5000/api/product/category/snack
+
+
+###
+http://localhost:5000/api/product/userProduct/1
+
