@@ -9,7 +9,7 @@ Content-Type: application/json
 {
     "firstName": "Christian",
     "lastName": "Lacaste",
-    "email": "lacastetuts1@gmail.com",
+    "email": "lexsell.website@gmail.com",
     "gender": "",
     "country": "",
     "region": "",

@@ -91,7 +91,14 @@ authController.register = async (req, res) => {
             }
         }
         // Prompt for email success or failed.
-        sendMail().then(result => console.log('Email sent...', result))
+        sendMail().then(result => {
+            console.log('Email sent...', result);
+            return res.json({
+                success: true,
+                type: "sucess",
+                message: `Activation link has been sent to ${email}`
+            });
+        })
             .catch(error => console.log(error.message))
 
     }
