@@ -1,4 +1,4 @@
-http://localhost:5000/api/auth
+http://localhost:5000/api/product/
 
 ###
 
@@ -7,9 +7,9 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "firstName": "Christian",
-    "lastName": "Lacaste",
-    "email": "lexsell.website@gmail.com",
+    "firstName": "Jerryson",
+    "lastName": "Guillen",
+    "email": "jerrysonguillen@gmail.com",
     "gender": "",
     "country": "",
     "region": "",
@@ -33,8 +33,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "lacastetuts1@gmail.com",
-    "password": "321321"
+    "email": "jerrysonguillen@gmail.com",
+    "password": "password28"
 }
 
 ###
@@ -58,3 +58,27 @@ Content-Type: application/json
     "newPassword": "321321"
 }
 
+#eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQzYTJlOTliZTEwZDE4NWM4YjIyOTIiLCJpYXQiOjE2MDc3MDU3MzgsImV4cCI6MTYwODMxMDUzOH0.ff84gTMFoX6DS0ag5veIU5KRf5knJ1s70nrHZ4DtKkI
+
+###
+POST http://localhost:5000/api/product/
+Content-Type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQzYTJlOTliZTEwZDE4NWM4YjIyOTIiLCJpYXQiOjE2MDc3NTg4MjYsImV4cCI6MTYwODM2MzYyNn0.Bhw27Wpr8v19Naap4aybPdo3tR1CV0pT2oNkr9x92JA
+
+{
+    "title":"sample1",
+    "description":"potato chips",
+    "category":["food","snack"],
+    "images":["sample","sample2"],
+    "price":30.00,
+    "meetingPlace":"Quezon",
+    "condition":"brand new"
+}
+
+###
+DELETE http://localhost:5000/api/product/5fd3b5004f56d20f9c77c7ab
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQzYTJlOTliZTEwZDE4NWM4YjIyOTIiLCJpYXQiOjE2MDc3NTkwMDYsImV4cCI6MTYwODM2MzgwNn0.liUwgOHLI3R6fJdJ7Jl2sFopW-xvuhqgLcKj2-m6q4Q
+
+//get product
+###
+http://localhost:5000/api/product/5fd3b5004f56d20f9c77c7ab
