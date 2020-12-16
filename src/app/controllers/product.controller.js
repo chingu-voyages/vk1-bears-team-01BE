@@ -7,9 +7,7 @@ const productController = {};
 //add product
 productController.add = async (req, res) => {
   //const userId = req.user.userId;
-  console.log("product controller")
-  console.log(req.body)
-  console.log(req.user._id)
+
   const {
     title,
     description,
@@ -44,14 +42,37 @@ productController.add = async (req, res) => {
   }
 };
 
+//update product
+productController.update = async (req, res) => {
+  console.log("this is update")
+  try {
+    let product = await productModel.findById(req.params.productId);
+    if (!product) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "Product not found" });
+    }
+    Object.assign(product, req.body);
+    await product.save();
+    return res
+      .status(httpStatus.OK)
+      .json({ message: "Product Successfully Updated" });
+  } catch (error) {
+    return res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ error: error.toString() });
+  }
+};
+
 //get user product
 productController.getUserProduct = async (req, res) => {
   try {
     const userid = req.params.userId;
     const products = await productModel.find();
     const userProducts = products.filter((product) => product.userId == userid);
-    if(products) return res.status(httpStatus.OK).json(userProducts);
-    else return res.status(httpStatus.NO_CONTENT).json({meesage: "no content"});
+    if (products) return res.status(httpStatus.OK).json(userProducts);
+    else
+      return res.status(httpStatus.NO_CONTENT).json({ meesage: "no content" });
   } catch (error) {
     return res.status().json({ error: error.toString() });
   }
@@ -112,7 +133,5 @@ productController.findAll = async (req, res) => {
     return res.status().json({ error: error.toString() });
   }
 };
-
-
 
 export default productController;

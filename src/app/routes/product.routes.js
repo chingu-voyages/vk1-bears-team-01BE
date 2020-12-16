@@ -11,6 +11,9 @@ productRoutes.get("/", asyncWrapper(productController.findAll));
 //add product
 productRoutes.post("/", authenticateToken, asyncWrapper(productController.add));
 
+//update ppoduct
+productRoutes.put("/:productId", authenticateToken, asyncWrapper(productController.update));
+
 //get product by category
 productRoutes.get(
   "/category/:category",
