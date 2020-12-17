@@ -23,7 +23,7 @@ POST http://localhost:5000/api/auth/activation
 Content-Type: application/json
 
 {
-    "token": ""
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJDaHJpc3RpYW4iLCJsYXN0TmFtZSI6IkxhY2FzdGUiLCJlbWFpbCI6ImNocmlzdGlhbjA5Mjg5M0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjEyMzEyMyIsImdlbmRlciI6Ik1hbGUiLCJjb3VudHJ5IjoiUGhpbGlwcGluZXMiLCJyZWdpb24iOiJOYXRpb25hbCBDYXBpdGFsIFJlZ2lvbiIsImlhdCI6MTYwODE2ODExNCwiZXhwIjoxNjA4NzcyOTE0fQ.kT2lA7BB8_os88UB4cyt0EvJnR_bfL9NLXJeLMz-quc"
 }
 
 ###
@@ -33,8 +33,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "jerrysonguillen@gmail.com",
-    "password": "password28"
+    "email": "christian092893@gmail.com",
+    "password": "123123"
 }
 
 ###
@@ -79,6 +79,31 @@ authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQzYTJlO
 DELETE http://localhost:5000/api/product/5fd3b5004f56d20f9c77c7ab
 authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQzYTJlOTliZTEwZDE4NWM4YjIyOTIiLCJpYXQiOjE2MDc3NTkwMDYsImV4cCI6MTYwODM2MzgwNn0.liUwgOHLI3R6fJdJ7Jl2sFopW-xvuhqgLcKj2-m6q4Q
 
-//get product
+#get product
 ###
 http://localhost:5000/api/product/5fd3b5004f56d20f9c77c7ab
+
+###
+#TEST
+GET http://localhost:5000/api/user/
+
+###
+#GET user
+GET http://localhost:5000/api/user/getInfo
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRhYjJlNTQxMjJiODE1MzA4NTFlNzgiLCJpYXQiOjE2MDgxNjkzNTEsImV4cCI6MTYwODc3NDE1MX0.ZuHMwF7aOh6rDR-4b7hpeUlhJPCsekKkmz2p1EWdZLc
+
+
+###
+#GET user
+POST  http://localhost:5000/api/user/update
+Content-Type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRhYjJlNTQxMjJiODE1MzA4NTFlNzgiLCJpYXQiOjE2MDgxNjkzNTEsImV4cCI6MTYwODc3NDE1MX0.ZuHMwF7aOh6rDR-4b7hpeUlhJPCsekKkmz2p1EWdZLc
+
+{
+    "firstName": "Jerryson",
+    "lastName": "Guillen",
+    "gender": "Female",
+    "country": "Thailand",
+    "region": "Bangkok",
+    "password": "password28"
+}
