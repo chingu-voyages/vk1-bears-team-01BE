@@ -16,6 +16,7 @@ oAuth2Client.setCredentials({ refresh_token: process.env.MAIL_REFRESH_TOKEN })
 
 // Google client id to OAuth2Client
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT);
+
 const authController = {};
 
 // REGISTER EMAIL
@@ -91,8 +92,22 @@ authController.register = async (req, res) => {
             }
         }
         // Prompt for email success or failed.
-        sendMail().then(result => console.log('Email sent...', result))
-            .catch(error => console.log(error.message))
+        sendMail().then(result => {
+            console.log('Email sent...', result);
+            return res.json({
+                success: true,
+                type: "sucess",
+                message: `Activation link has been sent to ${email}`
+            });
+        })
+            .catch(error => {
+                console.log(error.message)
+                return res.json({
+                    error: true,
+                    type: "warning",
+                    message: `Error: ${error.message}`
+                });
+            })
 
     }
 }

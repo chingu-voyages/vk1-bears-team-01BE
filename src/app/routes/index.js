@@ -1,6 +1,7 @@
 import express from "express";
 import authRoutes from "./auth.routes";
 import productRoutes from "./product.routes"
+import userRoutes from "./user.routes"
 
 const apiRoutes = express.Router();
 
@@ -14,6 +15,9 @@ apiRoutes.use("/api/auth", authRoutes);
 
 //product routes
 apiRoutes.use("/api/product", productRoutes)
+
+//user routes
+apiRoutes.use("/api/user", userRoutes)
 
 export default apiRoutes;
 
