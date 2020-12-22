@@ -2,9 +2,11 @@ import express from "express";
 import { asyncWrapper } from "./../utils/asyncWrapper";
 import productController from "./../controllers/product.controller";
 import authenticateToken from "../middlewares/auth";
+const fileUpload = require('express-fileupload');
+
 
 const productRoutes = express.Router();
-
+productRoutes.use(fileUpload());
 //get all product
 productRoutes.get("/", asyncWrapper(productController.findAll));
 
@@ -28,6 +30,8 @@ productRoutes.get(
   "/userProduct/:userId",
   asyncWrapper(productController.getUserProduct)
 );
+
+productRoutes.post("/upload",asyncWrapper(productController.addImage))
 
 //delete product
 productRoutes.delete("/:productId",authenticateToken, asyncWrapper(productController.delete));
