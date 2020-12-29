@@ -100,9 +100,9 @@ Content-Type: application/json
 authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmRhYjJlNTQxMjJiODE1MzA4NTFlNzgiLCJpYXQiOjE2MDgxNjkzNTEsImV4cCI6MTYwODc3NDE1MX0.ZuHMwF7aOh6rDR-4b7hpeUlhJPCsekKkmz2p1EWdZLc
 
 {
-    "firstName": "Jerryson",
-    "lastName": "Guillen",
-    "gender": "Female",
+    "firstName": "Christian",
+    "lastName": "Lacaste",
+    "gender": "Male",
     "country": "Thailand",
     "region": "Bangkok",
     "password": "password28"
