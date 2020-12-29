@@ -6,14 +6,9 @@ const productController = {};
 
 //add product
 productController.add = async (req, res) => {
-  //const userId = req.user.userId;
-  console.log("product controller")
-  console.log(req.body)
-  console.log(req.user._id)
   const {
     title,
     description,
-    images,
     category,
     price,
     meetingPlace,
@@ -22,6 +17,22 @@ productController.add = async (req, res) => {
   } = req.body;
   const userId = req.user._id;
   const today = new Date();
+  let images = [];
+  const dateNow = `${Date.now()}`;
+  const files = Object.entries(req.files);
+
+  files.forEach((el) => {
+    const file = el[1];
+    const fileName = dateNow + file.name;
+    images.push(fileName);
+    file.mv(`${__dirname}/../uploads/images/${fileName}`, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+    });
+  });
+
   try {
     const product = await productModel.create({
       title,
@@ -44,14 +55,74 @@ productController.add = async (req, res) => {
   }
 };
 
+//update product
+productController.update = async (req, res) => {
+  try {
+    let product = await productModel.findById(req.params.productId);
+    if (!product) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "Product not found" });
+    }
+    const {
+      title,
+      description,
+      category,
+      price,
+      meetingPlace,
+      brand,
+      condition,
+    } = req.body;
+    const today = new Date();
+    let images = [];
+    const dateNow = `${Date.now()}`;
+    const files = Object.entries(req.files);
+
+    files.forEach((el) => {
+      const file = el[1];
+      const fileName = dateNow + file.name;
+      images.push(fileName);
+      file.mv(`${__dirname}/../uploads/images/${fileName}`, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).send(err);
+        }
+      });
+    });
+
+    const updatedProduct = {
+      title,
+      description,
+      images,
+      category,
+      price,
+      meetingPlace,
+      brand,
+      condition,
+      updatedAt: today,
+    };
+
+    Object.assign(product, updatedProduct);
+    await product.save();
+    return res
+      .status(httpStatus.OK)
+      .json({ message: "Product Successfully Updated" });
+  } catch (error) {
+    return res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ error: error.toString() });
+  }
+};
+
 //get user product
 productController.getUserProduct = async (req, res) => {
   try {
     const userid = req.params.userId;
     const products = await productModel.find();
     const userProducts = products.filter((product) => product.userId == userid);
-    if(products) return res.status(httpStatus.OK).json(userProducts);
-    else return res.status(httpStatus.NO_CONTENT).json({meesage: "no content"});
+    if (products) return res.status(httpStatus.OK).json(userProducts);
+    else
+      return res.status(httpStatus.NO_CONTENT).json({ meesage: "no content" });
   } catch (error) {
     return res.status().json({ error: error.toString() });
   }
@@ -113,6 +184,21 @@ productController.findAll = async (req, res) => {
   }
 };
 
+productController.addImage = async (req, res) => {
+  const files = Object.entries(req.files);
+  req.params.productId;
+  files.forEach((el) => {
+    const file = el[1];
+    const fileName = el[0];
 
+    file.mv(`${__dirname}/../uploads/images/${fileName}`, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+    });
+  });
+  res.json({ msg: "sucess" });
+};
 
 export default productController;

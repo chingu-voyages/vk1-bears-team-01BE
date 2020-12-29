@@ -9,9 +9,7 @@ import apiRoutes from './app/routes/';
 const app = express();
 
 //only client url in .env can have the access.
-app.use(cors({
-    origin: process.env.CLIENT_URL
-}));
+app.use(cors());
 
 //use bodyParser
 app.use(bodyParser.json());
