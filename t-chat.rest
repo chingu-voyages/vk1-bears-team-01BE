@@ -1,0 +1,72 @@
+GET http://localhost:5000/api/chat
+
+
+###
+# Send Message
+POST http://localhost:5000/api/chat/send-message
+content-type: application/json
+
+{
+    "channel": "g0003",
+    "productId": "5fdab2e54122b81531681e28",
+    "buyerId": "5fdab2e54122b81331271e99",
+    "sellerId": "5fdab2e54122b81331251e78",
+    "priceOffer": 0,
+    "buyerDeal": false,
+    "sellerDeal": false,
+    "messageType": "normal",    
+    "senderId": "5fdab2e54122b81331271e99",
+    "message": "hi 3 wazzap 1"
+}
+
+###
+# New Price Offer
+POST http://localhost:5000/api/chat/initial-offer
+content-type: application/json
+
+{
+    "channel": "g0006",
+    "productId": "5fdab2e54122b81531681e28",
+    "buyerId": "5fdab2e54122b81331271e99",
+    "sellerId": "5fdab2e54122b81331251e78",
+    "priceOffer": 1500,
+    "buyerDeal": true,
+    "sellerDeal": false,
+    "messageType": "offer",
+    "senderId": "5fdab2e54122b81331271e99",
+    "message": "Bid Offer PHP 1500"
+}
+
+###
+# Price Offer
+POST http://localhost:5000/api/chat/price-offer
+content-type: application/json
+
+{
+    "channel": "g0006",
+    "productId": "5fdab2e54122b81531681e28",
+    "buyerId": "5fdab2e54122b81331271e99",
+    "sellerId": "5fdab2e54122b81331251e78",
+    "priceOffer": 2800,
+    "buyerDeal": true,
+    "sellerDeal": false,
+    "messageType": "offer",
+    "senderId": "5fdab2e54122b81331271e99",
+    "message": "Bid Offer PHP 2800"
+}
+
+###
+# Seller Offer Response
+POST http://localhost:5000/api/chat/seller-offer-response
+content-type: application/json
+
+{
+    "channel": "g0006",
+    "productId": "5fdab2e54122b81531681e28",
+    "buyerId": "5fdab2e54122b81331271e99",
+    "sellerId": "5fdab2e54122b81331251e78",
+    "sellerDeal": true,
+    "messageType": "offer",
+    "senderId": "5fdab2e54122b81331271e99",
+    "message": "Offer Accepted!"
+}
