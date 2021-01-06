@@ -8,7 +8,9 @@ import _ from 'lodash';
 import httpStatus from "../utils/httpStatus";
 import userModel from "../models/user.model";
 
-
+var fs = require("fs");
+var path = require("path");
+const mustache = require("mustache");
 
 // Mail google OAuth2
 const oAuth2Client = new google.auth.OAuth2(process.env.MAIL_CLIENT_ID, process.env.MAIL_CLIENT_SECRET, process.env.MAIL_REDIRECT_URI);
@@ -73,16 +75,18 @@ authController.register = async (req, res) => {
                     }
                 })
                 // EMAIL CONTENT DETAILS
+                const filePath = path.join(__dirname, "email.html");
+                var content = await fs.readFileSync(filePath, "utf-8");
+                var view = {
+                    url: `${process.env.CLIENT_URL}/activate/${token}`,
+                };
+                var activationEmail = mustache.render(content, view);
                 const mailOptions = {
                     from: `LEXSELL <${process.env.EMAIL_FROM}>`,
                     to: email,
                     subject: 'Account Activation Link',
                     text: 'Please use the following to activate your account',
-                    html: `<h1>Please use the following to activate your account</h1>
-                            <p>${process.env.CLIENT_URL}/users/activate/${token}</p>
-                            <hr />
-                            <p>This email may containe sensetive information</p>
-                            <p>${process.env.CLIENT_URL}</p>`
+                    html: activationEmail,
                 }
                 // Sends the email
                 const result = await transport.sendMail(mailOptions);
