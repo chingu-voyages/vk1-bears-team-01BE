@@ -205,19 +205,20 @@ authController.login = (req, res,) => {
                     message: 'Email and password do not match'
                 });
             }
+
+            // Deconstruct user data
+            const { _id, firstName, lastName, email, role, gender, country, region } = user;
+
             // Generate a token and send to client
             const token = jwt.sign(
                 {
-                    _id: user._id
+                    _id, firstName, lastName, email, role, gender, country, region
                 },
                 process.env.JWT_SECRET,
                 {
                     expiresIn: process.env.JWT_EXPIRATION
                 }
             );
-
-            // Deconstruct user data
-            const { _id, firstName, lastName, email, role, gender, country, region } = user;
 
             // Login Success
             return res.json({
