@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 
 const productRoutes = express.Router();
 productRoutes.use(fileUpload());
+productRoutes.use(express.static('src'))
 //get all product
 productRoutes.get("/", asyncWrapper(productController.findAll));
 
